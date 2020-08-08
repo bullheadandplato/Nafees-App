@@ -9,7 +9,15 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottomTabLayout" />
+        android:layout_above="@id/shadow"
+        android:layout_marginBottom="2dp" />
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/bottomTabLayout"
+        android:background="@drawable/bg_shadow" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/bottomTabLayout"
