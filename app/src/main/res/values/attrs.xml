@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressButton">
+        <attr name="text" format="string" />
+        <attr name="enabled" format="boolean" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ErrorView">
+        <attr name="errorText" format="string" />
+        <attr name="errorIcon" format="reference" />
+        <attr name="retryButtonText" format="string" />
+    </declare-styleable>
+</resources>

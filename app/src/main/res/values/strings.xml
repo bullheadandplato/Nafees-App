@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Quran with Urdu Translation</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="retry">Retry</string>
+    <string name="search">Search</string>
+    <string name="ok">OK</string>
+</resources>
