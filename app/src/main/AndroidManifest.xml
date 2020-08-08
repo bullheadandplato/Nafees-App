@@ -24,6 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.video.YoutubePlayerActivity"
+            android:configChanges="orientation|smallestScreenSize|screenSize|keyboardHidden|screenLayout"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:resizeableActivity="true"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/AppTheme.Youtube" />
     </application>
 
 </manifest>

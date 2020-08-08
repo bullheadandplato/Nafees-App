@@ -61,4 +61,5 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     implementation project(':api')
+    implementation project(':yt')
 }

@@ -36,7 +36,7 @@ public class VideoFragment extends DataFragment<Video> {
     public RecyclerView.Adapter<VideoViewHolder> getAdapter(@NonNull List<Video> data) {
         VideoAdapter adapter = new VideoAdapter(data);
         adapter.setListener((item, pos) -> {
-
+            YoutubePlayerActivity.show(context, item);
         });
         return adapter;
     }

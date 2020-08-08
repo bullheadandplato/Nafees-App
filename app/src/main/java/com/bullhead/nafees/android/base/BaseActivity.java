@@ -43,6 +43,9 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     protected final void applyModeChange() {
         uiModeManager.setNightMode(isNightMode() ?
                 UiModeManager.MODE_NIGHT_YES : UiModeManager.MODE_NIGHT_NO);
+        if (isFullscreen()) {
+            return;
+        }
         getWindow().setStatusBarColor(style.getSecondaryColor());
         if (!isNightMode()) {
             applyLightNavigation();
@@ -97,6 +100,10 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
             onBackPressed();
             return true;
         }
+        return false;
+    }
+
+    public boolean isFullscreen() {
         return false;
     }
 
