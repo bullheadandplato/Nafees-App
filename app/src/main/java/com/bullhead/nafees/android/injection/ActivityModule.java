@@ -1,7 +1,7 @@
 package com.bullhead.nafees.android.injection;
 
 
-import com.bullhead.nafees.android.ui.MainActivity;
+import com.bullhead.nafees.android.ui.home.HomeActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -9,5 +9,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityModule {
     @ContributesAndroidInjector
-    abstract MainActivity mainActivity();
+    abstract HomeActivity mainActivity();
 }
