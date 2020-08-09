@@ -2,7 +2,7 @@ package com.bullhead.nafees.android.injection;
 
 
 import com.bullhead.nafees.android.ui.home.HomeActivity;
-import com.bullhead.nafees.android.ui.video.YoutubePlayerActivity;
+import com.bullhead.nafees.android.ui.video.YoutubePlayerFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -13,5 +13,5 @@ public abstract class ActivityModule {
     abstract HomeActivity mainActivity();
 
     @ContributesAndroidInjector
-    abstract YoutubePlayerActivity youtubePlayerActivity();
+    abstract YoutubePlayerFragment youtubePlayerActivity();
 }

@@ -1,5 +1,6 @@
 package com.bullhead.nafees.android.ui.video;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,8 @@ public class VideoFragment extends DataFragment<Video> {
     public RecyclerView.Adapter<VideoViewHolder> getAdapter(@NonNull List<Video> data) {
         VideoAdapter adapter = new VideoAdapter(data);
         adapter.setListener((item, pos) -> {
-            YoutubePlayerActivity.show(context, item);
+            activity().ifPresent(Activity::finish);
+            YoutubePlayerFragment.show(context, item);
         });
         return adapter;
     }

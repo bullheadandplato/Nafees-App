@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.video.YoutubePlayerActivity"
+            android:name=".ui.video.YoutubePlayerFragment"
             android:configChanges="orientation|smallestScreenSize|screenSize|keyboardHidden|screenLayout"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
