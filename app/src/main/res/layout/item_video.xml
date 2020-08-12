@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/titleTextView"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -34,5 +34,15 @@
             android:text="Huge title"
             android:textColor="@android:color/white"
             tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/favoriteButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_round_favorite_border_24"
+            android:tint="@color/cancelledColor"
+            tools:ignore="ContentDescription" />
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>

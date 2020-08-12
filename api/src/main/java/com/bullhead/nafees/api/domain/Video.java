@@ -1,5 +1,7 @@
 package com.bullhead.nafees.api.domain;
 
+import com.bullhead.android.favorite.FavoriteId;
+
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
@@ -14,6 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class Video implements Serializable {
+    @FavoriteId
     private String id;
     private String title;
     private String description;

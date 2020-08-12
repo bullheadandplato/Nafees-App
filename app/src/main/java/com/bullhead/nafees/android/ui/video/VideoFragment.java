@@ -1,6 +1,7 @@
 package com.bullhead.nafees.android.ui.video;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bullhead.nafees.android.base.DataFragment;
 import com.bullhead.nafees.android.helper.Helper;
 import com.bullhead.nafees.android.ui.home.HomeActivity;
+import com.bullhead.nafees.android.util.FavoriteVideoManager;
 import com.bullhead.nafees.api.Api;
 import com.bullhead.nafees.api.domain.Video;
 import com.bullhead.nafees.api.util.exception.ApiExceptionUtil;
@@ -19,10 +21,21 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class VideoFragment extends DataFragment<Video> {
+    private static final String TAG = VideoFragment.class.getSimpleName();
+
     @Inject
-    Api service;
+    Api                  service;
+    @Inject
+    FavoriteVideoManager favoriteManager;
+
+    private CompositeDisposable disposables;
+    private VideoAdapter        videoAdapter;
 
     @NonNull
     public static VideoFragment newInstance() {
@@ -35,15 +48,36 @@ public class VideoFragment extends DataFragment<Video> {
     @NonNull
     @Override
     public RecyclerView.Adapter<VideoViewHolder> getAdapter(@NonNull List<Video> data) {
-        VideoAdapter adapter = new VideoAdapter(data);
-        adapter.setListener((item, pos) -> {
+        videoAdapter = new VideoAdapter(data, this::toggleFavorite, this::isFavorite);
+        videoAdapter.setListener((item, pos) -> {
             activity().ifPresent(ac -> {
                 if (ac instanceof HomeActivity) {
                     ((HomeActivity) ac).play(item);
                 }
             });
         });
-        return adapter;
+        return videoAdapter;
+    }
+
+    private void toggleFavorite(@NonNull Video video, int pos) {
+        Disposable d = favoriteManager.isFavorite(video)
+                .flatMapCompletable(favorite ->
+                        favorite ? favoriteManager.delete(video) : favoriteManager.insert(video))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    if (videoAdapter != null) {
+                        videoAdapter.notifyItemChanged(pos);
+                    }
+                }, error -> {
+                    Log.e(TAG, "toggleFavorite: " +
+                            "Unable to toggle favorite because " + error.getLocalizedMessage());
+                });
+        disposables.add(d);
+    }
+
+    private Single<Boolean> isFavorite(@NonNull Video video) {
+        return favoriteManager.isFavorite(video);
     }
 
     @NonNull
@@ -58,5 +92,17 @@ public class VideoFragment extends DataFragment<Video> {
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
         return new GridLayoutManager(context, Helper.getSpanCountByItemWidth(250));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        disposables = new CompositeDisposable();
+    }
+
+    @Override
+    public void onStop() {
+        disposables.dispose();
+        super.onStop();
     }
 }
