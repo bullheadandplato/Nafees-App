@@ -1,6 +1,7 @@
 package com.bullhead.nafees.android.ui.home;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -40,18 +41,27 @@ public class HomeActivity extends BaseActivity {
         if (youtubePlayerFragment == null) {
             youtubePlayerFragment = new YoutubePlayerFragment();
             youtubePlayerFragment.setVideo(video);
-            youtubePlayerFragment.setBackPressListener(this::onPlayerBack);
+            youtubePlayerFragment.setToggleExpandListener(this::toggleExpand);
             youtubePlayerFragment.setCloseListener(this::closePlayer);
             binding.playerView.setVisibility(View.VISIBLE);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.playerView, youtubePlayerFragment)
                     .commit();
+            expandPlayer();
         } else {
             youtubePlayerFragment.setVideo(video);
         }
     }
 
-    private void onPlayerBack() {
+    private void toggleExpand(boolean expand) {
+        if (expand) {
+            expandPlayer();
+        } else {
+            collapsePlayer();
+        }
+    }
+
+    private void collapsePlayer() {
         float width  = Helper.pxFromDp(200);
         float height = Helper.pxFromDp(130);
         FrameLayout.LayoutParams params = new FrameLayout
@@ -61,17 +71,30 @@ public class HomeActivity extends BaseActivity {
         params.setMargins(margin, margin, margin, margin);
         params.bottomMargin = binding.bottomTabLayout.getMeasuredHeight() + margin;
         binding.playerView.setLayoutParams(params);
-        binding.playerView.setOnClickListener(v -> {
-            expandPlayer();
-        });
+        youtubePlayerFragment.collapse();
+        exitExpandedPlayUI();
     }
 
     private void expandPlayer() {
-        binding.playerView.setOnClickListener(null);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         binding.playerView.setLayoutParams(params);
         youtubePlayerFragment.expand();
+        applyExpandedPlayUI();
+    }
+
+    private void applyExpandedPlayUI() {
+        getWindow().setStatusBarColor(Color.BLACK);
+        getWindow().setNavigationBarColor(Color.BLACK);
+        getWindow().getDecorView().setSystemUiVisibility(0);
+    }
+
+    private void exitExpandedPlayUI() {
+        getWindow().setStatusBarColor(style.getSecondaryColor());
+        getWindow().setNavigationBarColor(style.getSecondaryColor());
+        if (!isNightMode()) {
+            applyLightNavigation();
+        }
     }
 
     private void closePlayer() {
@@ -93,11 +116,20 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        if (youtubePlayerFragment != null && youtubePlayerFragment.isExpanded()) {
+            collapsePlayer();
+            return;
+        }
         if (shouldEnterPip()) {
             goPip();
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean isFullscreen() {
+        return youtubePlayerFragment != null && youtubePlayerFragment.isExpanded();
     }
 
     private boolean shouldEnterPip() {

@@ -28,9 +28,10 @@ public class YoutubePlayerFragment extends BaseFragment {
     private Video                        video;
     private SimpleYoutubePlayerListener  playerListener;
     private boolean                      started;
-    private BackPressListener            backPressListener;
+    private ToggleExpandListener         toggleExpandListener;
     private OnCloseListener              closeListener;
     private boolean                      collapsed;
+    private YouTubePlayer                player;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,8 +63,14 @@ public class YoutubePlayerFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.backButton.setOnClickListener(v -> onBackClick());
+        binding.toggleExpand.setOnClickListener(v -> onBackClick());
+        binding.closeButton.setOnClickListener(v -> {
+            if (closeListener != null) {
+                closeListener.closePlayer();
+            }
+        });
         binding.youtubePlayerView.getPlayerUiController().showYouTubeButton(false);
+        binding.youtubePlayerView.getPlayerUiController().showFullscreenButton(false);
         getLifecycle().addObserver(binding.youtubePlayerView);
         if (video != null) {
             play(video);
@@ -71,14 +78,9 @@ public class YoutubePlayerFragment extends BaseFragment {
     }
 
     private void onBackClick() {
-        if (collapsed) {
-            if (closeListener != null) {
-                closeListener.closePlayer();
-            }
-        }
-        if (this.backPressListener != null) {
-            backPressListener.onBack();
-            collapse();
+        if (toggleExpandListener != null) {
+            collapsed = !collapsed;
+            toggleExpandListener.toggleExpand(!collapsed);
         }
     }
 
@@ -90,17 +92,16 @@ public class YoutubePlayerFragment extends BaseFragment {
     }
 
     public void play(@NonNull Video video) {
-        float savedPosition = positionStore.get(video.getId());
+        if (player != null) {
+            player.loadVideo(video.getId(), 0);
+            return;
+        }
         binding.youtubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
             @Override
             public void onReady(@NotNull YouTubePlayer youTubePlayer) {
-                youTubePlayer.loadVideo(video.getId(), savedPosition);
-                playerListener = new SimpleYoutubePlayerListener() {
-                    @Override
-                    public void onCurrentSecond(@NotNull YouTubePlayer youTubePlayer, float second) {
-                        positionStore.set(video.getId(), second);
-                    }
-                };
+                player = youTubePlayer;
+                youTubePlayer.loadVideo(video.getId(), 0);
+                playerListener = new SimpleYoutubePlayerListener();
                 youTubePlayer.addListener(playerListener);
             }
         });
@@ -122,8 +123,8 @@ public class YoutubePlayerFragment extends BaseFragment {
         super.onStop();
     }
 
-    public void setBackPressListener(BackPressListener backPressListener) {
-        this.backPressListener = backPressListener;
+    public void setToggleExpandListener(ToggleExpandListener toggleExpandListener) {
+        this.toggleExpandListener = toggleExpandListener;
     }
 
     public void setCloseListener(OnCloseListener closeListener) {
@@ -135,25 +136,36 @@ public class YoutubePlayerFragment extends BaseFragment {
             return;
         }
         collapsed = false;
-        binding.backButton.setImageResource(R.drawable.ic_baseline_arrow_back_24);
-        binding.youtubePlayerView.setEnabled(true);
+        binding.toggleExpand.setImageResource(R.drawable.ic_baseline_fullscreen_exit_24);
     }
 
     public void togglePip(boolean pip) {
         if (binding == null) {
             return;
         }
-        binding.backButton.setVisibility(pip ? View.GONE : View.VISIBLE);
+        if (pip) {
+            binding.closeButton.setVisibility(View.GONE);
+            binding.toggleExpand.setVisibility(View.GONE);
+        } else {
+            binding.closeButton.setVisibility(View.VISIBLE);
+            binding.toggleExpand.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void collapse() {
+    public void collapse() {
+        if (binding == null) {
+            return;
+        }
         collapsed = true;
-        binding.backButton.setImageResource(R.drawable.ic_close_black_24dp);
-        binding.youtubePlayerView.setEnabled(false);
+        binding.toggleExpand.setImageResource(R.drawable.ic_baseline_fullscreen_24);
     }
 
-    public interface BackPressListener {
-        void onBack();
+    public boolean isExpanded() {
+        return !collapsed;
+    }
+
+    public interface ToggleExpandListener {
+        void toggleExpand(boolean expand);
     }
 
     public interface OnCloseListener {

@@ -60,7 +60,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
             getWindow().setNavigationBarColor(style.getSecondaryColor());
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
                     | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        } else {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
