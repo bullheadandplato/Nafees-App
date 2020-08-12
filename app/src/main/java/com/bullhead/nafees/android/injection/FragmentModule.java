@@ -1,6 +1,7 @@
 package com.bullhead.nafees.android.injection;
 
 import com.bullhead.nafees.android.ui.video.VideoFragment;
+import com.bullhead.nafees.android.ui.video.YoutubePlayerFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -9,4 +10,7 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class FragmentModule {
     @ContributesAndroidInjector
     abstract VideoFragment videoFragment();
+
+    @ContributesAndroidInjector
+    abstract YoutubePlayerFragment youtubePlayerFragment();
 }

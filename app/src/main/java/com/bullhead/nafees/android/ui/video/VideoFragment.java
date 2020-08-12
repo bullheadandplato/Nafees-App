@@ -1,6 +1,5 @@
 package com.bullhead.nafees.android.ui.video;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bullhead.nafees.android.base.DataFragment;
 import com.bullhead.nafees.android.helper.Helper;
+import com.bullhead.nafees.android.ui.home.HomeActivity;
 import com.bullhead.nafees.api.Api;
 import com.bullhead.nafees.api.domain.Video;
 import com.bullhead.nafees.api.util.exception.ApiExceptionUtil;
@@ -37,8 +37,11 @@ public class VideoFragment extends DataFragment<Video> {
     public RecyclerView.Adapter<VideoViewHolder> getAdapter(@NonNull List<Video> data) {
         VideoAdapter adapter = new VideoAdapter(data);
         adapter.setListener((item, pos) -> {
-            activity().ifPresent(Activity::finish);
-            YoutubePlayerFragment.show(context, item);
+            activity().ifPresent(ac -> {
+                if (ac instanceof HomeActivity) {
+                    ((HomeActivity) ac).play(item);
+                }
+            });
         });
         return adapter;
     }

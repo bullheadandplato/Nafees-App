@@ -18,21 +18,18 @@
         tools:ignore="AllowBackup,UnusedAttribute">
         <activity
             android:name=".ui.home.HomeActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.video.YoutubePlayerFragment"
             android:configChanges="orientation|smallestScreenSize|screenSize|keyboardHidden|screenLayout"
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:resizeableActivity="true"
-            android:supportsPictureInPicture="true"
-            android:theme="@style/AppTheme.Youtube" />
+            android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
