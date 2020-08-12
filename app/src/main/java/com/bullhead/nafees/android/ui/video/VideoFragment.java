@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bullhead.nafees.android.R;
 import com.bullhead.nafees.android.base.DataFragment;
 import com.bullhead.nafees.android.helper.Helper;
 import com.bullhead.nafees.android.ui.home.HomeActivity;
@@ -36,13 +38,23 @@ public class VideoFragment extends DataFragment<Video> {
 
     private CompositeDisposable disposables;
     private VideoAdapter        videoAdapter;
+    private boolean             favorite;
 
     @NonNull
-    public static VideoFragment newInstance() {
-        Bundle        args     = new Bundle();
+    public static VideoFragment newInstance(boolean favorite) {
+        Bundle args = new Bundle();
+        args.putBoolean("favorite", favorite);
         VideoFragment fragment = new VideoFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            favorite = getArguments().getBoolean("favorite");
+        }
     }
 
     @NonNull
@@ -76,6 +88,7 @@ public class VideoFragment extends DataFragment<Video> {
         disposables.add(d);
     }
 
+    @NonNull
     private Single<Boolean> isFavorite(@NonNull Video video) {
         return favoriteManager.isFavorite(video);
     }
@@ -83,7 +96,7 @@ public class VideoFragment extends DataFragment<Video> {
     @NonNull
     @Override
     public Observable<List<Video>> getCall() {
-        return service.videos()
+        return (favorite ? favoriteManager.get() : service.videos())
                 .onErrorResumeNext(error -> Single.error(ApiExceptionUtil.generalException(error)))
                 .toObservable();
     }
@@ -92,6 +105,11 @@ public class VideoFragment extends DataFragment<Video> {
     @Override
     public RecyclerView.LayoutManager getLayoutManager() {
         return new GridLayoutManager(context, Helper.getSpanCountByItemWidth(250));
+    }
+
+    @Override
+    public int getErrorIcon() {
+        return favorite ? R.drawable.ic_round_favorite_24 : R.drawable.ic_twotone_eco_24;
     }
 
     @Override
