@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bullhead.androidyoutubeplayer.core.player.YouTubePlayer;
-import com.bullhead.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.bullhead.nafees.android.R;
 import com.bullhead.nafees.android.base.BaseFragment;
 import com.bullhead.nafees.android.databinding.ActivityYoutubePlayerBinding;
 import com.bullhead.nafees.android.util.SimpleYoutubePlayerListener;
 import com.bullhead.nafees.android.util.VideoPositionStore;
 import com.bullhead.nafees.api.domain.Video;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 
 import org.jetbrains.annotations.NotNull;
 

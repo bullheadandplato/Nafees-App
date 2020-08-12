@@ -1,8 +1,8 @@
 package com.bullhead.nafees.android.util;
 
-import com.bullhead.androidyoutubeplayer.core.player.PlayerConstants;
-import com.bullhead.androidyoutubeplayer.core.player.YouTubePlayer;
-import com.bullhead.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener;
 
 import org.jetbrains.annotations.NotNull;
 

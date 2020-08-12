@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.bullhead.androidyoutubeplayer.core.player.views.YouTubePlayerView
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        app:showFullScreenButton="true"
-        app:useNativeUi="true" />
+        app:showFullScreenButton="false" />
 
     <ImageView
         android:id="@+id/toggleExpand"
