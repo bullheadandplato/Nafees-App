@@ -29,7 +29,8 @@ public class VideoAdapter extends BaseRecyclerAdapter<Video, VideoViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         holder.setFavoriteClickListener(favoriteClickListener);
+        holder.setFavoriteCheckProvider(favoriteCheckProvider);
+        super.onBindViewHolder(holder, position);
     }
 }

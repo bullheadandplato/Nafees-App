@@ -19,9 +19,7 @@
         <activity
             android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|smallestScreenSize|screenSize|keyboardHidden|screenLayout"
-            android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            android:noHistory="true"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true">
             <intent-filter>
