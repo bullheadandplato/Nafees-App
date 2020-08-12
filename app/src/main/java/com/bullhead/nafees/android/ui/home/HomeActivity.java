@@ -103,6 +103,7 @@ public class HomeActivity extends BaseActivity {
                 .commit();
         binding.playerView.setVisibility(View.GONE);
         youtubePlayerFragment = null;
+        exitExpandedPlayUI();
     }
 
     private void goPip() {
