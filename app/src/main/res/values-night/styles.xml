@@ -24,4 +24,5 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+
 </resources>

@@ -5,4 +5,11 @@
     <string name="search">Search</string>
     <string name="ok">OK</string>
     <string name="no_favorite_videos">You can click heart icon on video to add it to your favorites :)</string>
+    <string name="general">General</string>
+    <string name="video_notifications">Notifications</string>
+    <string name="misc">Miscellaneous</string>
+    <string name="open_source_summary">Licences of libraries used in this app</string>
+    <string name="open_source_title">Open Source Licences</string>
+    <string name="about_title">About</string>
+    <string name="about_summary">Developed with 💖 by bullhead</string>
 </resources>
