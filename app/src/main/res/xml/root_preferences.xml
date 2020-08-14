@@ -4,8 +4,9 @@
     <PreferenceCategory app:title="@string/general">
 
         <SwitchPreferenceCompat
-            android:summary="Receive notification for new video"
+            android:summary="@string/summary_notification"
             app:key="notification"
+            app:icon="@drawable/ic_baseline_notifications_24"
             app:title="@string/video_notifications" />
 
 
@@ -15,8 +16,15 @@
 
         <Preference
             app:key="licences"
+            app:icon="@drawable/ic_baseline_public_24"
             app:summary="@string/open_source_summary"
             app:title="@string/open_source_title" />
+
+        <Preference
+            app:icon="@drawable/ic_baseline_code_24"
+            app:key="code"
+            app:summary="@string/code_summary"
+            app:title="@string/code_title" />
 
         <Preference
             app:key="about"

@@ -1,6 +1,8 @@
 package com.bullhead.nafees.android.ui.preferences;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             preference.setOnPreferenceClickListener(p -> {
                 if (getContext() != null) {
                     startActivity(new Intent(getContext(), OssLicensesMenuActivity.class));
+                }
+                return true;
+            });
+        }
+        Preference code = findPreference("code");
+        if (code != null) {
+            code.setOnPreferenceClickListener(p -> {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://gitlab.com/nafees-app/nafees-android"));
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    //ignore
                 }
                 return true;
             });
