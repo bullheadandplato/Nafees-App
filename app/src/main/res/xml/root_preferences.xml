@@ -6,6 +6,7 @@
         <SwitchPreferenceCompat
             android:summary="@string/summary_notification"
             app:key="notification"
+            app:defaultValue="true"
             app:icon="@drawable/ic_baseline_notifications_24"
             app:title="@string/video_notifications" />
 

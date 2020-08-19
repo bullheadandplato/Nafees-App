@@ -10,12 +10,18 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.bullhead.nafees.android.R;
+import com.bullhead.nafees.android.notification.NotificationSubscribeManager;
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
+import javax.inject.Inject;
+
 public class SettingsFragment extends PreferenceFragmentCompat {
+    @Inject
+    NotificationSubscribeManager subscribeManager;
+
     @NonNull
     public static SettingsFragment newInstance() {
-        Bundle           args     = new Bundle();
+        Bundle args = new Bundle();
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -24,6 +30,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        setupNotificationPref();
+        setupCodePrefs();
+        setupLicensePref();
+    }
+
+    private void setupLicensePref() {
         Preference preference = findPreference("licences");
         if (preference != null) {
             preference.setOnPreferenceClickListener(p -> {
@@ -33,6 +45,24 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             });
         }
+    }
+
+    private void setupNotificationPref() {
+        Preference notification = findPreference("notification");
+        if (notification != null) {
+            notification.setOnPreferenceChangeListener((preference1, newValue) -> {
+                boolean value = (boolean) newValue;
+                if (value) {
+                    subscribeManager.subscribe();
+                } else {
+                    subscribeManager.unsubscribe();
+                }
+                return true;
+            });
+        }
+    }
+
+    private void setupCodePrefs() {
         Preference code = findPreference("code");
         if (code != null) {
             code.setOnPreferenceClickListener(p -> {
