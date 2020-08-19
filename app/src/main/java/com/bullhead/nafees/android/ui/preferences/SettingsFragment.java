@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -15,9 +16,17 @@ import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 import javax.inject.Inject;
 
+import dagger.android.support.AndroidSupportInjection;
+
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Inject
     NotificationSubscribeManager subscribeManager;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
+        super.onCreate(savedInstanceState);
+    }
 
     @NonNull
     public static SettingsFragment newInstance() {
