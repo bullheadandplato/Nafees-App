@@ -21,7 +21,7 @@ class RetrofitModule {
     Retrofit retrofit(@NonNull OkHttpClient client) {
         return new Retrofit.Builder()
                 .client(client)
-                .baseUrl("http://192.168.1.9:9078/nafees/")
+                .baseUrl("http://78.128.60.15:8080/nafees/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
