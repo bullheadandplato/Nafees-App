@@ -29,12 +29,12 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class DataFragment<T> extends BaseFragment {
     private static final String TAG = DataFragment.class.getSimpleName();
 
-    protected RecyclerView       recyclerView;
-    protected ErrorView          errorView;
+    protected RecyclerView recyclerView;
+    protected ErrorView errorView;
     protected SwipeRefreshLayout refreshLayout;
-    private   SearchView         searchView;
+    private SearchView searchView;
 
-    private Disposable                   disposable;
+    private Disposable disposable;
     private GenericRecyclerLayoutBinding binding;
 
     @Nullable
@@ -49,10 +49,10 @@ public abstract class DataFragment<T> extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView  = binding.recyclerView;
-        errorView     = binding.errorView;
+        recyclerView = binding.recyclerView;
+        errorView = binding.errorView;
         refreshLayout = binding.refreshLayout;
-        searchView    = binding.searchView;
+        searchView = binding.searchView;
 
         refreshLayout.setColorSchemeResources(R.color.primaryColor,
                 R.color.primaryDarkColor, R.color.primaryLightColor);
@@ -101,6 +101,23 @@ public abstract class DataFragment<T> extends BaseFragment {
         errorView.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (disposable != null && !disposable.isDisposed()) {
+            if (refreshLayout != null) {
+                refreshLayout.setRefreshing(true);
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        if (refreshLayout != null) {
+            refreshLayout.setRefreshing(false);
+        }
+        super.onPause();
+    }
 
     private void hideProgress() {
         refreshLayout.setRefreshing(false);
@@ -126,6 +143,16 @@ public abstract class DataFragment<T> extends BaseFragment {
         super.onStop();
         if (disposable != null) {
             disposable.dispose();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (recyclerView.getAdapter() == null &&
+                errorView.getVisibility() == View.GONE &&
+                !refreshLayout.isRefreshing()) {
+            loadData();
         }
     }
 
