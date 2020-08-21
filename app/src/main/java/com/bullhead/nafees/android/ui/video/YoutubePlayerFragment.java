@@ -66,6 +66,7 @@ public class YoutubePlayerFragment extends BaseFragment {
         binding.toggleExpand.setOnClickListener(v -> onBackClick());
         binding.closeButton.setOnClickListener(v -> {
             if (closeListener != null) {
+                binding.youtubePlayerView.release();
                 closeListener.closePlayer();
             }
         });
