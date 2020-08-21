@@ -18,7 +18,7 @@
         tools:ignore="AllowBackup,UnusedAttribute">
         <activity
             android:name=".ui.home.HomeActivity"
-            android:configChanges="orientation|smallestScreenSize|screenSize|keyboardHidden|screenLayout"
+            android:configChanges="orientation|smallestScreenSize|screenSize|keyboardHidden|screenLayout|uiMode"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true">

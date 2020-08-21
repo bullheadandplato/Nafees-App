@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.UiModeManager;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bullhead.nafees.android.util.Prefs;
@@ -31,6 +33,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     protected Prefs prefs;
 
     private UiModeManager uiModeManager;
+    private int           currentUiMode;
 
 
     @Override
@@ -41,11 +44,14 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     }
 
     protected final void applyModeChange() {
+        style.init(this);
         uiModeManager.setNightMode(isNightMode() ?
                 UiModeManager.MODE_NIGHT_YES : UiModeManager.MODE_NIGHT_NO);
+        currentUiMode = getResources().getConfiguration().uiMode;
         if (isFullscreen()) {
             return;
         }
+        getWindow().getDecorView().setBackgroundColor(style.getSecondaryColor());
         getWindow().setStatusBarColor(style.getSecondaryColor());
         if (!isNightMode()) {
             applyLightNavigation();
@@ -101,6 +107,14 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.uiMode != currentUiMode) {
+            recreate();
+        }
     }
 
     public boolean isFullscreen() {

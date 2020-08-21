@@ -18,6 +18,10 @@ public final class Style {
 
     @Inject
     public Style(@NonNull Context context) {
+        init(context);
+    }
+
+    public void init(@NonNull Context context) {
         primaryColor     = ContextCompat.getColor(context, R.color.primaryColor);
         secondaryColor   = ContextCompat.getColor(context, R.color.secondaryColor);
         primaryDarkColor = ContextCompat.getColor(context, R.color.primaryDarkColor);
