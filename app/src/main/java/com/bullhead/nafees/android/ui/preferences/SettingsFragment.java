@@ -11,8 +11,8 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.bullhead.nafees.android.R;
+import com.bullhead.nafees.android.base.CloseableActivity;
 import com.bullhead.nafees.android.notification.NotificationSubscribeManager;
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 import javax.inject.Inject;
 
@@ -30,7 +30,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @NonNull
     public static SettingsFragment newInstance() {
-        Bundle args = new Bundle();
+        Bundle           args     = new Bundle();
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -49,7 +49,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (preference != null) {
             preference.setOnPreferenceClickListener(p -> {
                 if (getContext() != null) {
-                    startActivity(new Intent(getContext(), OssLicensesMenuActivity.class));
+                    CloseableActivity.show(AboutLibsActivity.class, getChildFragmentManager());
                 }
                 return true;
             });
@@ -77,6 +77,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             code.setOnPreferenceClickListener(p -> {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setData(Uri.parse("https://gitlab.com/nafees-app/nafees-android"));
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {

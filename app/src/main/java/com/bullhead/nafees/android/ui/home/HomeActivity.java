@@ -15,7 +15,10 @@ import com.bullhead.nafees.android.base.BaseActivity;
 import com.bullhead.nafees.android.databinding.ActivityMainBinding;
 import com.bullhead.nafees.android.helper.Helper;
 import com.bullhead.nafees.android.ui.video.YoutubePlayerFragment;
+import com.bullhead.nafees.android.util.bean.GoPipEvent;
 import com.bullhead.nafees.api.domain.Video;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class HomeActivity extends BaseActivity {
     private ActivityMainBinding   binding;
@@ -110,6 +113,7 @@ public class HomeActivity extends BaseActivity {
         if (shouldEnterPip()) {
             enterPictureInPictureMode();
             expandPlayer();
+            EventBus.getDefault().post(new GoPipEvent());
         } else {
             super.onUserLeaveHint();
         }
