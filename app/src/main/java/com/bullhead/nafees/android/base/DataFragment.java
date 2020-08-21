@@ -29,12 +29,12 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class DataFragment<T> extends BaseFragment {
     private static final String TAG = DataFragment.class.getSimpleName();
 
-    protected RecyclerView recyclerView;
-    protected ErrorView errorView;
+    protected RecyclerView       recyclerView;
+    protected ErrorView          errorView;
     protected SwipeRefreshLayout refreshLayout;
-    private SearchView searchView;
+    private   SearchView         searchView;
 
-    private Disposable disposable;
+    private Disposable                   disposable;
     private GenericRecyclerLayoutBinding binding;
 
     @Nullable
@@ -49,10 +49,10 @@ public abstract class DataFragment<T> extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = binding.recyclerView;
-        errorView = binding.errorView;
+        recyclerView  = binding.recyclerView;
+        errorView     = binding.errorView;
         refreshLayout = binding.refreshLayout;
-        searchView = binding.searchView;
+        searchView    = binding.searchView;
 
         refreshLayout.setColorSchemeResources(R.color.primaryColor,
                 R.color.primaryDarkColor, R.color.primaryLightColor);
@@ -95,6 +95,10 @@ public abstract class DataFragment<T> extends BaseFragment {
     private void onError(@NonNull Throwable error) {
         disposable.dispose();
         hideProgress();
+        presentError(error);
+    }
+
+    protected void presentError(@NonNull Throwable error) {
         recyclerView.setVisibility(View.GONE);
         errorView.getIcError().setImageResource(getErrorIcon());
         errorView.setErrorText(error.getMessage());
@@ -152,6 +156,12 @@ public abstract class DataFragment<T> extends BaseFragment {
         if (recyclerView.getAdapter() == null &&
                 errorView.getVisibility() == View.GONE &&
                 !refreshLayout.isRefreshing()) {
+            loadData();
+        }
+    }
+
+    public void refresh() {
+        if (disposable == null || disposable.isDisposed()) {
             loadData();
         }
     }

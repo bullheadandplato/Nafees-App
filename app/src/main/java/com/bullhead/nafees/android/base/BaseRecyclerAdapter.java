@@ -64,6 +64,17 @@ public abstract class BaseRecyclerAdapter<T, VH extends BaseViewHolder<T>> exten
         return items.size();
     }
 
+    public boolean deleteAt(int pos) {
+        if (pos > -1 && pos < items.size()) {
+            T removed = items.remove(pos);
+            if (removed != null) {
+                notifyItemRemoved(pos);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public interface OnItemClick<T> {
         void onClick(@NonNull T item, int position);

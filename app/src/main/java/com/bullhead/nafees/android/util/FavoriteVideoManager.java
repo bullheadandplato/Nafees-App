@@ -20,6 +20,7 @@ import io.reactivex.Single;
 @Singleton
 public final class FavoriteVideoManager {
     private final FavoriteHandler<Video> favoriteHandler;
+    private       boolean                changed;
 
     @Inject
     FavoriteVideoManager(@NonNull Context context) {
@@ -30,6 +31,7 @@ public final class FavoriteVideoManager {
     public Completable insert(@NonNull Video video) {
         return Completable.create(emitter -> {
             favoriteHandler.insert(video);
+            changed = true;
             if (!emitter.isDisposed()) {
                 emitter.onComplete();
             }
@@ -40,6 +42,7 @@ public final class FavoriteVideoManager {
     public Completable delete(@NonNull Video video) {
         return Completable.create(emitter -> {
             favoriteHandler.delete(video);
+            changed = true;
             if (!emitter.isDisposed()) {
                 emitter.onComplete();
             }
@@ -70,5 +73,11 @@ public final class FavoriteVideoManager {
                 emitter.onSuccess(isFavorite);
             }
         });
+    }
+
+    public boolean getStateAndInvalidate() {
+        boolean toReturn = changed;
+        changed = false;
+        return toReturn;
     }
 }

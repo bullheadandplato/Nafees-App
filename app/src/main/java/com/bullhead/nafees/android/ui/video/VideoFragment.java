@@ -13,6 +13,7 @@ import com.bullhead.nafees.android.base.DataFragment;
 import com.bullhead.nafees.android.helper.Helper;
 import com.bullhead.nafees.android.ui.home.HomeActivity;
 import com.bullhead.nafees.android.util.FavoriteVideoManager;
+import com.bullhead.nafees.android.util.exception.ResThrowable;
 import com.bullhead.nafees.api.Api;
 import com.bullhead.nafees.api.domain.Video;
 import com.bullhead.nafees.api.util.exception.ApiExceptionUtil;
@@ -71,10 +72,45 @@ public class VideoFragment extends DataFragment<Video> {
         return videoAdapter;
     }
 
-    private void toggleFavorite(@NonNull Video video, int pos) {
+    private void toggleFavorite(final @NonNull Video video, final int pos) {
         Disposable d = favoriteManager.isFavorite(video)
-                .flatMapCompletable(favorite ->
-                        favorite ? favoriteManager.delete(video) : favoriteManager.insert(video))
+                .subscribe((favorite) -> {
+                    if (favorite) {
+                        deleteFavorite(video, pos);
+                    } else {
+                        addFavorite(video, pos);
+                    }
+                }, error -> {
+                    Log.e(TAG, "toggleFavorite: " +
+                            "Unable to toggle favorite because " + error.getLocalizedMessage());
+                });
+        disposables.add(d);
+    }
+
+    private void deleteFavorite(@NonNull Video video, int pos) {
+        Disposable d = favoriteManager.delete(video)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    if (videoAdapter != null) {
+                        if (favorite) {
+                            videoAdapter.deleteAt(pos);
+                            if (videoAdapter.getItemCount() == 0) {
+                                presentError(new ResThrowable(R.string.no_favorite_videos));
+                            }
+                        } else {
+                            videoAdapter.notifyItemChanged(pos);
+                        }
+                    }
+                }, error -> {
+                    Log.e(TAG, "deleteFavorite: " +
+                            "Unable to delete favorite " + error.getLocalizedMessage());
+                });
+        disposables.add(d);
+    }
+
+    private void addFavorite(@NonNull Video video, int pos) {
+        Disposable d = favoriteManager.insert(video)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
@@ -82,8 +118,8 @@ public class VideoFragment extends DataFragment<Video> {
                         videoAdapter.notifyItemChanged(pos);
                     }
                 }, error -> {
-                    Log.e(TAG, "toggleFavorite: " +
-                            "Unable to toggle favorite because " + error.getLocalizedMessage());
+                    Log.e(TAG, "addFavorite: " +
+                            "Unable to add favorite " + error.getLocalizedMessage());
                 });
         disposables.add(d);
     }
@@ -111,6 +147,21 @@ public class VideoFragment extends DataFragment<Video> {
     public int getErrorIcon() {
         return favorite ? R.drawable.ic_round_favorite_24 : R.drawable.ic_twotone_eco_24;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (favoriteManager.getStateAndInvalidate()) {
+            if (favorite) {
+                refresh();
+            } else {
+                if (recyclerView.getAdapter() != null) {
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
 
     @Override
     public void onStart() {
