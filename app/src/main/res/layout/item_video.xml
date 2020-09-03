@@ -44,7 +44,7 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_round_favorite_border_24"
-            app:tint="@color/cancelledColor"
+            app:tint="@color/primaryColor"
             tools:ignore="ContentDescription" />
     </FrameLayout>
 </com.google.android.material.card.MaterialCardView>
