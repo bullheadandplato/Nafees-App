@@ -78,7 +78,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse("https://gitlab.com/nafees-app/nafees-android"));
+                    intent.setData(Uri.parse("https://github.com/bullheadandplato/Nafees-App"));
                     startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     //ignore

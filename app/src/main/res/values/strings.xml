@@ -11,8 +11,8 @@
     <string name="open_source_summary">Licences of libraries used in this app</string>
     <string name="open_source_title">Open Source Licences</string>
     <string name="about_title">About</string>
-    <string name="code_title">Code at Gitlab</string>
-    <string name="code_summary">Navigate to Gitlab repository of this app</string>
+    <string name="code_title">Code at Github</string>
+    <string name="code_summary">Navigate to Github repository of this app</string>
     <string name="summary_notification">Receive notification for new video</string>
     <string name="about_summary">Videos are loaded from Nafees Malik Quran with
         Urdu and English Youtube channel. The app is developed with 💖 by bullhead</string>
