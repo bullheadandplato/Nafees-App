@@ -24,6 +24,7 @@ public class HomeActivity extends BaseActivity {
     private ActivityMainBinding   binding;
     private TabsManager           tabsManager;
     private YoutubePlayerFragment youtubePlayerFragment;
+    private Video                 currentlyPlaying;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,12 @@ public class HomeActivity extends BaseActivity {
         tabsManager = new TabsManager(binding.bottomTabLayout,
                 binding.viewPager, this);
         tabsManager.setup();
+        if (savedInstanceState != null) {
+            currentlyPlaying = (Video) savedInstanceState.getSerializable("video");
+            if (currentlyPlaying != null) {
+                play(currentlyPlaying);
+            }
+        }
     }
 
     @Override
@@ -41,6 +48,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void play(@NonNull Video video) {
+        currentlyPlaying = video;
         if (youtubePlayerFragment == null) {
             youtubePlayerFragment = new YoutubePlayerFragment();
             youtubePlayerFragment.setVideo(video);
@@ -101,6 +109,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void closePlayer() {
+        currentlyPlaying = null;
         getSupportFragmentManager().beginTransaction()
                 .remove(youtubePlayerFragment)
                 .commit();
@@ -117,6 +126,14 @@ public class HomeActivity extends BaseActivity {
         } else {
             super.onUserLeaveHint();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        if (currentlyPlaying != null) {
+            outState.putSerializable("video", currentlyPlaying);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -139,12 +156,6 @@ public class HomeActivity extends BaseActivity {
 
     private boolean shouldEnterPip() {
         return youtubePlayerFragment != null && youtubePlayerFragment.shouldEnterPip();
-    }
-
-    @Override
-    protected void onDestroy() {
-        tabsManager.destroy();
-        super.onDestroy();
     }
 
     @Override

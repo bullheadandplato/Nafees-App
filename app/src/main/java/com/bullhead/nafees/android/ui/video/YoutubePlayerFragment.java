@@ -78,6 +78,12 @@ public class YoutubePlayerFragment extends BaseFragment {
         }
     }
 
+    public void close() {
+        if (binding != null) {
+            binding.youtubePlayerView.release();
+        }
+    }
+
     private void onBackClick() {
         if (toggleExpandListener != null) {
             collapsed = !collapsed;
