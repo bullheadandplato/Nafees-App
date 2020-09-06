@@ -1,5 +1,6 @@
 package com.bullhead.nafees.android.ui.home;
 
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -155,7 +156,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     private boolean shouldEnterPip() {
-        return youtubePlayerFragment != null && youtubePlayerFragment.shouldEnterPip();
+        return youtubePlayerFragment != null && youtubePlayerFragment.shouldEnterPip()
+                && doesDeviceSupportPip();
+    }
+
+    private boolean doesDeviceSupportPip() {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE);
     }
 
     @Override
