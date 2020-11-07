@@ -8,37 +8,12 @@
         <item name="android:windowBackground">@color/secondaryColor</item>
     </style>
 
-    <style name="AppTheme.Start" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/secondaryColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="android:windowBackground">@color/secondaryColor</item>
-    </style>
-
     <style name="FullScreenDialogStyle" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
-    </style>
-
-    <style name="AppTheme.Youtube" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@android:color/black</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorSecondary">@android:color/black</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@android:color/black</item>
-    </style>
-
-    <style name="LicenseTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="android:windowBackground">@color/secondaryColor</item>
     </style>
 
 </resources>

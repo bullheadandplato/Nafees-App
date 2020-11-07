@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="secondaryColor">#FAFAFA</color>
-    <color name="secondaryDarkColor">#BDBDBD</color>
     <color name="primaryColor">#3ddc84</color>
     <color name="primaryLightColor">#7affb4</color>
     <color name="primaryDarkColor">#00a956</color>
-    <color name="veryLightPrimaryColor">#553ddc84</color>
-    <color name="darkTextColor">#000000</color>
-    <color name="cancelledColor">#d32f2f</color>
-    <color name="paidColor">#4caf50</color>
-    <color name="pendingColor">#fbc02d</color>
-    <color name="semi_trans">#8a000000</color>
 </resources>

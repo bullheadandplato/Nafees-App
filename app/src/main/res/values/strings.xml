@@ -16,7 +16,6 @@
     <string name="summary_notification">Receive notification for new video</string>
     <string name="about_summary">Videos are loaded from Nafees Malik Quran with
         Urdu and English Youtube channel. The app is developed with 💖 by bullhead</string>
-    <string name="default_notification_channel_id">Video Notifications</string>
     <string name="share_app">Share App</string>
     <string name="share_summary">Share the Google Play link of application with your friends</string>
     <string name="share_text">%s https://play.google.com/store/apps/details?id=%s</string>
