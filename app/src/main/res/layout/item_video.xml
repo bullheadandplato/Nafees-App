@@ -35,15 +35,13 @@
             android:textColor="@android:color/white"
             tools:ignore="HardcodedText" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/favoriteButton"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end|bottom"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:focusable="true"
             android:src="@drawable/ic_round_favorite_border_24"
+            app:fabCustomSize="30dp"
             app:tint="@color/primaryColor"
             tools:ignore="ContentDescription" />
     </FrameLayout>
