@@ -1,5 +1,6 @@
 package com.bullhead.nafees.android.ui.preferences;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.bullhead.nafees.android.BuildConfig;
 import com.bullhead.nafees.android.R;
 import com.bullhead.nafees.android.base.CloseableActivity;
 import com.bullhead.nafees.android.notification.NotificationSubscribeManager;
@@ -42,6 +44,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         setupNotificationPref();
         setupCodePrefs();
         setupLicensePref();
+        setupSharingListener();
     }
 
     private void setupLicensePref() {
@@ -85,6 +88,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
                 return true;
             });
+        }
+    }
+
+    private void setupSharingListener() {
+        Preference sharing = findPreference("share");
+        if (sharing != null) {
+            sharing.setOnPreferenceClickListener(v -> {
+                if (getActivity() != null) {
+                    openShare(getActivity());
+                }
+                return true;
+            });
+        }
+    }
+
+    private void openShare(@NonNull Activity activity) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                getString(R.string.share_text,
+                        getString(R.string.app_name), BuildConfig.APPLICATION_ID));
+        sendIntent.setType("text/plain");
+        try {
+            activity.startActivity(sendIntent);
+        } catch (ActivityNotFoundException e) {
+            //ignore
         }
     }
 }

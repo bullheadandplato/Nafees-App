@@ -5,10 +5,15 @@
 
         <SwitchPreferenceCompat
             android:summary="@string/summary_notification"
-            app:key="notification"
             app:defaultValue="true"
             app:icon="@drawable/ic_baseline_notifications_24"
+            app:key="notification"
             app:title="@string/video_notifications" />
+        <Preference
+            app:icon="@drawable/ic_baseline_share_24"
+            app:key="share"
+            app:summary="@string/share_summary"
+            app:title="@string/share_app" />
 
 
     </PreferenceCategory>
@@ -16,8 +21,8 @@
     <PreferenceCategory app:title="@string/misc">
 
         <Preference
-            app:key="licences"
             app:icon="@drawable/ic_baseline_public_24"
+            app:key="licences"
             app:summary="@string/open_source_summary"
             app:title="@string/open_source_title" />
 
