@@ -52,7 +52,7 @@ public final class FavoriteVideoManager {
     @NonNull
     public Single<List<Video>> get() {
         return Single.create(emitter -> {
-            List<Video> videos = favoriteHandler.getAll(Video.class);
+            List<Video> videos = favoriteHandler.getAll();
             if (videos.isEmpty()) {
                 if (!emitter.isDisposed()) {
                     emitter.onError(new ResThrowable(R.string.no_favorite_videos));

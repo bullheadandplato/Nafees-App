@@ -23,13 +23,15 @@ public class FavoriteHandler<T extends Serializable> extends SQLiteOpenHelper {
                     FavoriteEntry.ID + " TEXT PRIMARY KEY," +
                     FavoriteEntry.COLUMN_JSON + " TEXT )";
 
-    private Field favoriteField;
+    private final Class<T> tClass;
+    private       Field    favoriteField;
 
     public FavoriteHandler(Context context, Class<T> tClass) {
         super(context, "fav_db", null, 1);
         if (!annotationPresent(tClass)) {
             throw new IllegalArgumentException("Please annotate your id with @FavoriteId");
         }
+        this.tClass = tClass;
     }
 
     public void insert(@NonNull T t) {
@@ -48,14 +50,14 @@ public class FavoriteHandler<T extends Serializable> extends SQLiteOpenHelper {
     }
 
     @NonNull
-    public List<T> getAll(Class<T> cls) {
+    public List<T> getAll() {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.query(FavoriteEntry.TABLE_NAME, new String[]{FavoriteEntry.ID, FavoriteEntry.COLUMN_JSON},
                 null, null, null, null, null);
         List<T> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             String json = cursor.getString(1);
-            T      t    = new Gson().fromJson(json, cls);
+            T      t    = new Gson().fromJson(json, tClass);
             data.add(t);
         }
         cursor.close();
@@ -82,7 +84,8 @@ public class FavoriteHandler<T extends Serializable> extends SQLiteOpenHelper {
         try {
             Field field = t.getClass().getDeclaredField(favoriteField.getName());
             field.setAccessible(true);
-            return field.get(t).toString();
+            Object ob = field.get(t);
+            return ob != null ? ob.toString() : null;
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
             return null;
