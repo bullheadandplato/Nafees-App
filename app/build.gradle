@@ -5,7 +5,14 @@ apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
-
+    signingConfigs {
+        config {
+            keyAlias signingKeyAlias
+            keyPassword signingKeyPassword
+            storeFile file("$signingKeyPath")
+            storePassword signingKeyPassword
+        }
+    }
     defaultConfig {
         applicationId "com.bullhead.nafees.android"
         minSdkVersion 24
@@ -17,8 +24,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
     compileOptions {
@@ -67,7 +82,7 @@ dependencies {
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.23'
     implementation 'com.google.firebase:firebase-messaging:21.0.0'
-    def aboutVersion='8.3.0'
+    def aboutVersion = '8.3.0'
     implementation "com.mikepenz:aboutlibraries-core:${aboutVersion}"
     implementation "com.mikepenz:aboutlibraries:${aboutVersion}"
 
